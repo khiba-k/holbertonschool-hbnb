@@ -38,15 +38,16 @@ class User:
         """
         if self.user_id == Place.host:
             User.user_places.append(Place.placeName)
+        
 
     def add_user(self):
         """Creates a dictionery of the users information
         """
-        User.user_details[self.user_id].append(self.firstName)
-        User.user_details[self.user_id].append(self.lastName)
-        User.user_details[self.user_id].append(self.__password)
-        User.user_details[self.user_id].append(self.email)
-        User.user_details[self.user_id].append(User.user_places)
+        
+        data = ((self.__dict__))
+        del data["user_id"]
+        data["places"] = User.user_places
+        User.user_details[self.user_id] = data
 
         DataManager.save("user_details")
 
@@ -57,6 +58,10 @@ class User:
             User.emails.append(self.email)
         return "Email already exists"
     
+
+   
+
+
     
 
 
