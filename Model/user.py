@@ -2,7 +2,6 @@
 """Defines class for User entity"""
 import uuid
 from place import Place
-from Persistance import DataManager
 
 
 class User:
@@ -16,6 +15,8 @@ class User:
     emails = []
     user_places = []
     user_details = {}
+    users = []
+    data = []
 
     def __init__(self, firstName, lastName, password, email):
         """Method initializes the User Class instance
@@ -28,10 +29,11 @@ class User:
         """
 
         self.user_id = uuid.uuid4().hex
-        self.firstName =firstName
+        self.firstName = firstName
         self.lastName = lastName
         self.__password = password
         self.email = email
+
 
     def add_places(self):
         """Creates a list of places hosted by the user
@@ -39,18 +41,6 @@ class User:
         if self.user_id == Place.host:
             User.user_places.append(Place.placeName)
         
-
-    def add_user(self):
-        """Creates a dictionery of the users information
-        """
-        
-        data = ((self.__dict__))
-        del data["user_id"]
-        data["places"] = User.user_places
-        User.user_details[self.user_id] = data
-
-        DataManager.save("user_details")
-
     def add_email(self):
         """Checks if email entered exists and adds it to list if not true 
         """
@@ -58,21 +48,36 @@ class User:
             User.emails.append(self.email)
         return "Email already exists"
     
-
-   
-
-
-    
-
-
-    def serialize(self):
-        return {
-            'user_id': self.user_id,
-            'firstName': self.firstName,
-            'lastName': self.lastName,
-            'password': self.password,
-            'email': self.email 
+    def add_user(self):
+        """Creates a list of all users
+        """
+        
+        data = {
+            "first_name": self.firstName,
+            "last_name": self.lastName,
+            "email": self.lastName,
+            "password": self.__password,
+            "places": User.user_places
         }
+        data = ((self.__dict__))
+        del data["user_id"]
+        data["places"] = User.user_places
+        User.user_details[self.user_id] = data
+        User.users.append(User.user_details)
 
+        return User.users
+    
+    def to_dict(self):
 
+    # users[
+    #     user_details: {
+    #         user_id: {
+    #             firstName:...
+    #             lastName:...
+    #             places: {
+    #                 placeName
+    #             }
+    #         }
+    #     }
+    # ]
 

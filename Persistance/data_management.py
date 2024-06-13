@@ -15,7 +15,7 @@ class DataManager(IPersistenceManager):
         except IOError as e:
             print(f"Error saving data: {e}")
 
-    def get(self, entity_id=None, entity_type=""):
+    def get(self, entity_type, entity_id=None):
         """
         Load information from data file.
 

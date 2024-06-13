@@ -1,43 +1,31 @@
-#!/usr/bin/python3
-
-"""
-place.py is a module definig the Place class used for adding places
-"""
 from country import Country
-import uuid
+from base_model import BaseModel
 
-class Place():
-    """
-    Defines a place
+"""
+defines a place class
+"""
 
-    Attributes:
-        available_places (object): stores places available for tenants 
+class Place:
     """
-    available_places = {}
-    def __init__(self, placeName=None, description=None, address=None, country_name=None, city_name=None, lattitude=None, 
-                 longitude=None, numberOfRooms=None, bathrooms=None, 
-                 pricePerNight=None, maxGuests=None):
-        self.place_id = uuid.uuid4().hex
-        self.placeName = placeName
+    Defines a place.
+    """
+
+    def __init__(self, host_id: str, place_name: str = None, description: str = None, 
+                 address: str = None, country_name: str = None, city_name: str = None, 
+                 latitude: float = None, longitude: float = None, number_of_rooms: int = None, 
+                 bathrooms: int = None, price_per_night: float = None, max_guests: int = None):
+        self.stamps = BaseModel()
+        self.place_id = self.stamps.id
+        self.place_name = place_name
         self.description = description
         self.address = address
+        self.host_id = host_id
         self.country = Country(country_name)
         self.city = city_name
-        self.lattitude = lattitude
+        self.latitude = latitude
         self.longitude = longitude
-        self.numberOfRooms = numberOfRooms
+        self.number_of_rooms = number_of_rooms
         self.bathrooms = bathrooms
-        self.pricePerNight = pricePerNight
-        self.maxGuest =maxGuests
+        self.price_per_night = price_per_night
+        self.max_guests = max_guests
         self.amenities = []
-
-    def save_place(self):
-        """
-        add place to data structure
-        """
-        if self.placeName not in Place.available_places:
-            data = dict((self.__dict__))
-            del data["placeName"]
-            Place.available_places[self.placeName] = data
-            return
-        return "Name is already taken"
