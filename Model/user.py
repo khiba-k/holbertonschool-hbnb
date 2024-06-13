@@ -2,7 +2,7 @@
 """Defines class for User entity"""
 import uuid
 from place import Place
-from data_management import DataManager
+from Persistance import DataManager
 
 
 class User:
