@@ -2,7 +2,7 @@
 from base_model import BaseModel
 
 class Amenity(BaseModel):
-    def __init__(self, name):
+    def __init__(self, name, description=None):
         super().__init__()
         self.name = name
 
@@ -12,7 +12,4 @@ class Amenity(BaseModel):
             'name': self.name,
             'created_at': self.created_at.isoformat(),
             'updated_at': self.updated_at.isoformat()
-        }
-
-    
-                                                        
+        }                                                

@@ -1,11 +1,8 @@
+#!/usr/bin/python3
 from country import Country
 from base_model import BaseModel
 
-"""
-defines a place class
-"""
-
-class Place:
+class Place(BaseModel):
     """
     Defines a place.
     """
@@ -14,8 +11,9 @@ class Place:
                  address: str = None, country_name: str = None, city_name: str = None, 
                  latitude: float = None, longitude: float = None, number_of_rooms: int = None, 
                  bathrooms: int = None, price_per_night: float = None, max_guests: int = None):
-        self.stamps = BaseModel()
-        self.place_id = self.stamps.id
+        super().__init__()
+        
+        self.place_id = self.id
         self.place_name = place_name
         self.description = description
         self.address = address
@@ -29,3 +27,27 @@ class Place:
         self.price_per_night = price_per_night
         self.max_guests = max_guests
         self.amenities = []
+
+    def add_amenity(self, amenity):
+        """Add an amenity to the place."""
+        self.amenities.append(amenity)
+
+    def to_dict(self):
+        """Return a dictionary representation of the Place instance."""
+        base_dict = super().to_dict()
+        base_dict.update({
+            'place_name': self.place_name,
+            'description': self.description,
+            'address': self.address,
+            'host_id': self.host_id,
+            'country': self.country.name if self.country else None,
+            'city': self.city,
+            'latitude': self.latitude,
+            'longitude': self.longitude,
+            'number_of_rooms': self.number_of_rooms,
+            'bathrooms': self.bathrooms,
+            'price_per_night': self.price_per_night,
+            'max_guests': self.max_guests,
+            'amenities': [amenity.to_dict() for amenity in self.amenities]
+        })
+        return base_dict
