@@ -23,11 +23,10 @@ def create_place(host_id,
     if place_data is None:
         place_data["places"] = {}
     if place_obj.place_name not in place_data:
-        data = dict(place_obj.__dict__)
-        del data["place_name"]
+        data = dict(place_obj.to_dict)
         data["created_at"] = place_obj.stamps.created_at
         place_data[place_obj.place_name] = data
-        manipulate_data.save(place_data, place_obj.host_id, place_obj.stamps.id)
+        manipulate_data.save(place_data, place_obj.host_id, place_obj.place_name)
         return "Place saved successfully."
     return "Place name is already taken."
 
