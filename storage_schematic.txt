@@ -20,7 +20,7 @@
                     "price_per_night": None
                     "max_guests": None
                     "amenities": [None]
-                }
+                },
 
                 "place_name": {
                     "place_id": None

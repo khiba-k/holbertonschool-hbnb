@@ -19,15 +19,15 @@ def get_users():
 
 @user_bp.route('/users/<int:user_id>', method=['GET'])
 def speicfic_user(user_id):
-    return get_specific_user()
+    return get_specific_user(user_id)
 
 @user_bp.route('/users/<int:user_id>', method=['PUT'])
 def up_user(user_id):
-    return update_user()
+    return update_user(user_id)
 
 @user_bp.route('/users/<int:user_id>', method=['DELETE'])
 def del_user(user_id):
-    return delete_user()
+    return delete_user(user_id)
 
 
 

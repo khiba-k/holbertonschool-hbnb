@@ -1,13 +1,16 @@
 #!/usr/bin/python3
+from base_model import BaseModel
+from cities import Cities
 
-class Country:
+class Country(BaseModel):
     def __init__(self, country_name):
+        super().__init__()
         self.country = country_name
         self.cities = []
 
-    def add_city(self, city_name):
-        if city_name not in self.cities:
-            self.cities.append(city_name)
+    def add_city(self, city):
+        if isinstance(city, Cities) and city.city_name not in [c.city_name for c in self.cities]:
+            self.cities.append(city)
 
     def get_cities(self):
         return self.cities
@@ -15,27 +18,49 @@ class Country:
     def get_country_name(self):
         return self.country
 
-# Example usage
-if __name__ == "__main__":
-    lesotho = Country("Lesotho")
-    south_africa = Country("South Africa")
+    def to_dict(self):
+        base_dict = super().to_dict()
+        base_dict.update({
+            "country": self.country,
+            "cities": [city.to_dict() for city in self.cities]
+        })
+        return base_dict
 
-    lesotho.add_city("Maseru")
-    lesotho.add_city("Hlotse")
-    lesotho.add_city("Pitseng")
+# Example Usage
+lesotho = Country("Lesotho")
+south_africa = Country("South Africa")
 
-    south_africa.add_city("Cape Town")
-    south_africa.add_city("Durban")
-    south_africa.add_city("East London")
+city1 = Cities("Maseru", lesotho)
+city2 = Cities("Hlotse", lesotho)
+city3 = Cities("Pitseng", lesotho)
 
-    print(f"Country: {lesotho.country}")
-    print("Cities:")
-    for city in lesotho.cities:
-        pass
-        print(f"- {city}")
+lesotho.add_city(city1)
+lesotho.add_city(city2)
+lesotho.add_city(city3)
 
-    print(f"Country: {south_africa.country}")
-    print("Cities:")
-    for city in south_africa.cities:
-        pass
-        print(f"- {city}")
+city4 = Cities("Cape Town", south_africa)
+city5 = Cities("Durban", south_africa)
+city6 = Cities("East London", south_africa)
+
+south_africa.add_city(city4)
+south_africa.add_city(city5)
+south_africa.add_city(city6)
+
+print(f"Country: {lesotho.get_country_name()}")
+print("Cities:")
+for city in lesotho.get_cities():
+    city_dict = city.to_dict()
+    print(f"- {city_dict['city_name']} (ID: {city_dict['id']}, Country: {city_dict['country']}, Created at: {city_dict['created_at']})")
+
+print(f"\nCountry: {south_africa.get_country_name()}")
+print("Cities:")
+for city in south_africa.get_cities():
+    city_dict = city.to_dict()
+    print(f"- {city_dict['city_name']} (ID: {city_dict['id']}, Country: {city_dict['country']}, Created at: {city_dict['created_at']})")
+
+# Print the dictionaries
+print("\nCountry Dictionary Lesotho:")
+print(lesotho.to_dict())
+
+print("\nCountry Dictionary South Africa:")
+print(south_africa.to_dict())

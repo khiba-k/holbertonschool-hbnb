@@ -7,7 +7,7 @@ class Review(BaseModel):
     def __init__(self, user, place, comment, ratings):
         """Initialize a new Review instance."""
         super().__init__()
-        self.user = user.first_name + " " + user.last_name
+        self.user = User.firstName + " " + User.lastName
         self.place_name = place.name
         self.comment = comment
         self.ratings = ratings
