@@ -2,6 +2,7 @@
 """Defines class for User entity"""
 import uuid
 from place import Place
+from base_model import BaseModel
 
 
 class User:
@@ -15,7 +16,7 @@ class User:
     emails = []
     user_places = []
     user_details = {}
-    users = []
+    users = {}
     data = []
 
     def __init__(self, firstName, lastName, password, email):
@@ -33,6 +34,8 @@ class User:
         self.lastName = lastName
         self.__password = password
         self.email = email
+        self.created_at = BaseModel.save()
+
 
 
     def add_places(self):
@@ -48,7 +51,7 @@ class User:
             User.emails.append(self.email)
         return "Email already exists"
     
-    def add_user(self):
+    def to_dict(self):
         """Creates a list of all users
         """
         
@@ -57,27 +60,11 @@ class User:
             "last_name": self.lastName,
             "email": self.lastName,
             "password": self.__password,
-            "places": User.user_places
+            "places": User.user_places,
+            "created_at": self.created_at
         }
-        data = ((self.__dict__))
-        del data["user_id"]
-        data["places"] = User.user_places
-        User.user_details[self.user_id] = data
-        User.users.append(User.user_details)
+        User.users[self.user_id] = data
 
         return User.users
     
-    def to_dict(self):
-
-    # users[
-    #     user_details: {
-    #         user_id: {
-    #             firstName:...
-    #             lastName:...
-    #             places: {
-    #                 placeName
-    #             }
-    #         }
-    #     }
-    # ]
 
