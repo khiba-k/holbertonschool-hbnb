@@ -48,32 +48,40 @@ class User:
             "password": self.__password,
             "created_at": self.created_at
         }
-        User.users[self.user_id] = data
-        return User.users
+        return data
     
     def save_to_file(self):
         """Saves user information to json file
         """
         if self.email not in User.emails:
             User.emails.append(self.email)
-            DataManager.save(User.users, None, self.user_id)
+            data_manager = DataManager()
+            data_manager.save("users", self.to_dict(), None, self.user_id)
         else:
             return "Email already exists"
     
-    def get_user(self):
-        """Retrieve user information from json file
-        """
-        DataManager.get(User.users, self.user_id)
+    # def get_user(self):
+    #     """Retrieve user information from json file
+    #     """
+    #     data_manager = DataManager()
+    #     user_data = data_manager.get("users", self.user_id)
+    #     if user_data:
+    #         print(json.dumps(user_data, indent=4))
+    #     else:
+    #         print("User not found")
+
 
     def update_user(self):
         """Update user information in json file
         """
-        DataManager.update(User.users, self.user_id)
+        data_manager = DataManager()
+        data_manager.update("users", self.to_dict(), None, self.user_id)
 
     def delete_user(self):
         """Deletes user information from json file
         """
-        DataManager.delete(self.user_id,User.users)
+        data_management = DataManager()
+        data_management.delete("users", self.user_id)
 
     
 
