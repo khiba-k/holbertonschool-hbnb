@@ -1,12 +1,5 @@
 {
-    "users": {
-        "Kamohelo": {
-            "first_name": "kamohelo",
-            "last_name": "koali",
-            "email": "kjbvdibuf",
-            "places": {}
-        }
-    },
+    "users": {},
     "countries": {},
     "reviews": {},
     "list_of_places": [],

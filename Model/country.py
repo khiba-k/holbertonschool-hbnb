@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 from base_model import BaseModel
 from cities import Cities
+from Persistance.data_management import DataManager as DM
 
 class Country(BaseModel):
     def __init__(self, country_name):
@@ -45,6 +46,8 @@ city6 = Cities("East London", south_africa)
 south_africa.add_city(city4)
 south_africa.add_city(city5)
 south_africa.add_city(city6)
+
+DM.save("country", lesotho)
 
 print(f"Country: {lesotho.get_country_name()}")
 print("Cities:")

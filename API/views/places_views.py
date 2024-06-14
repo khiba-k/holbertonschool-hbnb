@@ -1,4 +1,4 @@
-from flask import Flask, requests
+# from flask import Flask
 from Persistance import data_management as DM
 from Model import place
 
