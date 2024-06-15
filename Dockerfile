@@ -1,3 +1,13 @@
 FROM python3:alpine
-COPY . /app
+
 WORKDIR /app
+
+COPY requirments.txt .
+
+EXPOSE 5000
+
+COPY . .
+
+RUN pip install --no-cache-dir -r requirments.txt
+
+CMD ["python3", "app.py"]
