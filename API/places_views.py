@@ -18,19 +18,14 @@ def create_place(request_data):
               request_data.get("latitude"),
               request_data.get("longitude"), request_data.get("number_of_rooms"),
               request_data.get("bathrooms"),
-              request_data.get("price_per_night"), request_data.get("max_guests"))
+              request_data.get("price_per_night"), request_data.get("max_guests"), request_data.get("amenities"))
     manipulate_data = DM.DataManager()
-
-    place_data = manipulate_data.get("data_file.json", "places")
-    if place_data is None:
-        place_data["places"] = {}
-    if place_obj.place_name not in place_data:
-        data = dict(place_obj.to_dict)
-        data["created_at"] = place_obj.stamps.created_at
-        place_data[place_obj.place_name] = data
-        manipulate_data.save(place_data, place_obj.host_id, place_obj.place_name)
-        return "Place creater successfully."
-    return "Place name is already taken."
+    data = place_obj.to_dict()
+    # data["created_at"] = place_obj.created_at
+    manipulate_data.save("places", data, place_obj.host_id, place_obj.place_name)
+    manipulate_data.save("places", data)
+    return "Place created successfully."
+#############
 
 def get_places():
     """Get all places function"""

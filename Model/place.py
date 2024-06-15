@@ -1,4 +1,3 @@
-#!/usr/bin/python3
 from country import Country
 from base_model import BaseModel
 from Model.country import Country
@@ -8,10 +7,12 @@ class Place(BaseModel):
     Defines a place.
     """
 
+    index = 0
+
     def __init__(self, host_id: str, place_name: str = None, description: str = None, 
                  address: str = None, country_name: str = None, city_name: str = None, 
                  latitude: float = None, longitude: float = None, number_of_rooms: int = None, 
-                 bathrooms: int = None, price_per_night: float = None, max_guests: int = None):
+                 bathrooms: int = None, price_per_night: float = None, max_guests: int = None, amenities: list = None):
         super().__init__()
         
         self.place_id = self.id
@@ -28,6 +29,7 @@ class Place(BaseModel):
         self.price_per_night = price_per_night
         self.max_guests = max_guests
         self.amenities = []
+        self.index = self.index + 1
 
     def add_amenity(self, amenity):
         """Add an amenity to the place."""
@@ -41,7 +43,8 @@ class Place(BaseModel):
             'description': self.description,
             'address': self.address,
             'host_id': self.host_id,
-            'country': self.country.name if self.country else None,
+            'place_id': self.place_id,
+            'country': self.country.country if self.country else None,
             'city': self.city,
             'latitude': self.latitude,
             'longitude': self.longitude,
@@ -49,6 +52,8 @@ class Place(BaseModel):
             'bathrooms': self.bathrooms,
             'price_per_night': self.price_per_night,
             'max_guests': self.max_guests,
-            'amenities': [amenity.to_dict() for amenity in self.amenities]
+            'amenities': [amenity.to_dict() for amenity in self.amenities],
+            'created_at': str(self.created_at),
+            'index': self.index
         })
         return base_dict
