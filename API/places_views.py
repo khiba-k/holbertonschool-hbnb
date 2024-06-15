@@ -45,4 +45,5 @@ def update_place(data):
 
 def delete_place(id):
     """delete a place"""
-    return jsonify(manipulate_data.delete(entity_type, id)), 201
+    resp = manipulate_data.delete(entity_type, id)
+    return jsonify(resp), 201
