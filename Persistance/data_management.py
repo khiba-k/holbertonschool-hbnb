@@ -88,8 +88,8 @@ class DataManager(IPersistenceManager):
                             for i in data[entity_type]:
                                 if i.get("id") == entity_id:
                                     return i
-                        elif entity_type == "email":
-                            return data["email"]
+                        # elif entity_type == "email":
+                        #     return data["email"].get(entity_id)
                         return data[entity_type].get(entity_id)
                     return data.get(entity_type)
                 return None
