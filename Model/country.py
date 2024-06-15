@@ -28,42 +28,43 @@ class Country(BaseModel):
         return base_dict
 
 # Example Usage
-lesotho = Country("Lesotho")
-south_africa = Country("South Africa")
+# lesotho = Country("Lesotho")
+# south_africa = Country("South Africa")
 
-city1 = Cities("Maseru", lesotho)
-city2 = Cities("Hlotse", lesotho)
-city3 = Cities("Pitseng", lesotho)
+# city1 = Cities("Maseru", lesotho)
+# city2 = Cities("Hlotse", lesotho)
+# city3 = Cities("Pitseng", lesotho)
 
-lesotho.add_city(city1)
-lesotho.add_city(city2)
-lesotho.add_city(city3)
+# lesotho.add_city(city1)
+# lesotho.add_city(city2)
+# lesotho.add_city(city3)
 
-city4 = Cities("Cape Town", south_africa)
-city5 = Cities("Durban", south_africa)
-city6 = Cities("East London", south_africa)
+# city4 = Cities("Cape Town", south_africa)
+# city5 = Cities("Durban", south_africa)
+# city6 = Cities("East London", south_africa)
 
-south_africa.add_city(city4)
-south_africa.add_city(city5)
-south_africa.add_city(city6)
+# south_africa.add_city(city4)
+# south_africa.add_city(city5)
+# south_africa.add_city(city6)
 
-DM.save("country", lesotho)
+# dm = DM()
+# dm.save("country", lesotho.to_dict(), None, "Lesotho")
 
-print(f"Country: {lesotho.get_country_name()}")
-print("Cities:")
-for city in lesotho.get_cities():
-    city_dict = city.to_dict()
-    print(f"- {city_dict['city_name']} (ID: {city_dict['id']}, Country: {city_dict['country']}, Created at: {city_dict['created_at']})")
+# print(f"Country: {lesotho.get_country_name()}")
+# print("Cities:")
+# for city in lesotho.get_cities():
+#     city_dict = city.to_dict()
+#     print(f"- {city_dict['city_name']} (ID: {city_dict['id']}, Country: {city_dict['country']}, Created at: {city_dict['created_at']})")
 
-print(f"\nCountry: {south_africa.get_country_name()}")
-print("Cities:")
-for city in south_africa.get_cities():
-    city_dict = city.to_dict()
-    print(f"- {city_dict['city_name']} (ID: {city_dict['id']}, Country: {city_dict['country']}, Created at: {city_dict['created_at']})")
+# print(f"\nCountry: {south_africa.get_country_name()}")
+# print("Cities:")
+# for city in south_africa.get_cities():
+#     city_dict = city.to_dict()
+#     print(f"- {city_dict['city_name']} (ID: {city_dict['id']}, Country: {city_dict['country']}, Created at: {city_dict['created_at']})")
 
-# Print the dictionaries
-print("\nCountry Dictionary Lesotho:")
-print(lesotho.to_dict())
+# # Print the dictionaries
+# print("\nCountry Dictionary Lesotho:")
+# print(lesotho.to_dict())
 
-print("\nCountry Dictionary South Africa:")
-print(south_africa.to_dict())
+# print("\nCountry Dictionary South Africa:")
+# print(south_africa.to_dict())
