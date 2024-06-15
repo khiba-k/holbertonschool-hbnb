@@ -5,6 +5,7 @@ from flask import jsonify
 
 manipulate_data = DM.DataManager()
 
+
 def create_place(request_data):
     """
     Add place to data structure and save it using DataManager.
@@ -26,7 +27,7 @@ def create_place(request_data):
     manipulate_data.save("places", data, place_obj.host_id, place_obj.place_name)
     manipulate_data.save("places", data)
     return "Place created successfully."
-#############
+
 
 def get_places():
     """Get all places function"""
@@ -38,9 +39,9 @@ def get_place(id):
 
 def update_place():
     """update a spefic place"""
-    pass
+    return jsonify(manipulate_data.update())
 
 def delete_place(id):
     """delete a place"""
 
-    return jsonify(delete_place("places", id)), 201
+    return jsonify(manipulate_data.delete("places", id)), 201
