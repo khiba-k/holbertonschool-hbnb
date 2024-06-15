@@ -64,13 +64,13 @@ def update_user(user_id, data):
 
      
     updated_user = User(
-        firstName=data.get('firstName', existing_user['first_name']),
-        lastName=data.get('lastName', existing_user['last_name']),
+        firstName=data.get('first_name', existing_user['first_name']),
+        lastName=data.get('last_name', existing_user['last_name']),
         password=data.get('password', existing_user['password']),
         email=data.get('email', existing_user['email'])
     )
     updated_user.user_id = user_id
-    updated_user.update_user()
+    updated_user.user_update()
     
     return jsonify(updated_user.to_dict()), 200
 

@@ -25,17 +25,17 @@ def user():
 def get_users():
     return get_all_users()
 
-@app.route('/users/<int:user_id>', methods=['GET'])
+@app.route('/users/<user_id>', methods=['GET'])
 def speicfic_user(user_id):
-    return get_specific_user()
+    return get_specific_user(user_id)
 
-@app.route('/users/<int:user_id>', methods=['PUT'])
+@app.route('/users/<user_id>', methods=['PUT'])
 def up_user(user_id):
-    return update_user()
+    return update_user(user_id, request.get_json())
 
-@app.route('/users/<int:user_id>', methods=['DELETE'])
+@app.route('/users/<user_id>', methods=['DELETE'])
 def del_user(user_id):
-    return delete_user()
+    return delete_user(user_id)
 
 """
 Amenity routes

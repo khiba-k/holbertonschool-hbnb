@@ -71,7 +71,7 @@ class User:
     #         print("User not found")
 
 
-    def update_user(self):
+    def user_update(self):
         """Update user information in json file
         """
         data_manager = DataManager()
