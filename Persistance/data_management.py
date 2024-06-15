@@ -147,7 +147,7 @@ class DataManager(IPersistenceManager):
         return None
         
 
-    def delete(self, entity_type, entity_id, host_id=None):
+    def delete(self, entity_type, entity_id=None, host_id=None):
         """
         Delete information from JSON file.
 
@@ -164,6 +164,11 @@ class DataManager(IPersistenceManager):
             if host_id is not None:
                 del file_data["users"][host_id][entity_type][entity_id]
             else:
+                if "host_id" in file_data[entity_type][entity_id].keys():
+                    if entity_id is not None:
+                        del file_data["users"][file_data[entity_type][entity_id].get("host_id")][entity_type][entity_id]
+                    else:
+                        del file_data["users"][file_data[entity_type][entity_id].get("host_id")][entity_type]
                 del file_data[entity_type][entity_id]
             
             with open("data_file.json", "w", encoding="utf-8") as file:
