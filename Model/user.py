@@ -55,6 +55,7 @@ class User:
         """
         
         data_manager = DataManager()
+        data_manager.save("emails", self.email, None,  self.user_id)
         data_manager.save("users", self.to_dict(), None, self.user_id)
     
     # def get_user(self):
@@ -79,6 +80,7 @@ class User:
         """
         data_management = DataManager()
         data_management.delete("users", self.user_id)
+        data_management.delete("emails", self.user_id)
 
     
 
