@@ -37,17 +37,10 @@ def get_place(id):
     return jsonify(manipulate_data.get("places", id)), 200
 
 def update_place():
+    """update a spefic place"""
     pass
 
-def delete_place():
-    pass
+def delete_place(id):
+    """delete a place"""
 
-def update_place():
-    pass
-
-def create_place_review():
-    pass
-
-def get_place_reviews_route():
-    pass
-
+    return jsonify(delete_place("places", id)), 201

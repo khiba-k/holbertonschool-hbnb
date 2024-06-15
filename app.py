@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 from API.user_views import create_user, get_all_users, get_specific_user, update_user, delete_user
 from API.amenities_views import create_amenity, get_amenities, get_amenity, update_amenity, delete_amenity
 from API.countries_views import get_countries, get_country, get_country_cities, create_city, get_cities, retrieve_city, update_city, del_city
-from API.places_views import create_place, get_places, get_place, update_place, delete_place, create_place_review
+from API.places_views import create_place, get_places, get_place, update_place, delete_place
 from API.reviews_views import create_review_for_place, get_reviews_by_user, get_reviews_for_place, get_review, update_review, delete_review
 
 app = Flask(__name__)
@@ -124,9 +124,9 @@ def update_place_route(place_id):
 def delete_place_route(place_id):
     return delete_place(place_id)
 
-@app.route('/places/<place_id>/reviews', methods=['POST'])
-def create_place_review_route(place_id):
-    return create_place_review(place_id)
+# @app.route('/places/<place_id>/reviews', methods=['POST'])
+# def create_place_review_route(place_id):
+#     return create_place_review(place_id)
 
 # @app.route('/places/<place_id>/reviews', methods=['GET'])
 # def get_place_reviews_route(place_id):
