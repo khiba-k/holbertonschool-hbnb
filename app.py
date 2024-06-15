@@ -49,15 +49,15 @@ def create_amenity_route():
 def get_amenities_route():
     return get_amenities()
 
-@app.route('/amenities/<int:amenity_id>', methods=['GET'])
+@app.route('/amenities/<amenity_id>', methods=['GET'])
 def get_amenity_route(amenity_id):
     return get_amenity(amenity_id)
 
-@app.route('/amenities/<int:amenity_id>', methods=['PUT'])
+@app.route('/amenities/<amenity_id>', methods=['PUT'])
 def update_amenity_route(amenity_id):
     return update_amenity(amenity_id)
 
-@app.route('/amenities/<int:amenity_id>', methods=['DELETE'])
+@app.route('/amenities/<amenity_id>', methods=['DELETE'])
 def delete_amenity_route(amenity_id):
     return delete_amenity(amenity_id)
 
@@ -70,11 +70,11 @@ countries routes
 def countries_route():
     return get_countries()
 
-@app.route('/countries/<int:country_code>', methods=['GET'])
+@app.route('/countries/<country_code>', methods=['GET'])
 def get_country_route(country_code):
     return get_country()
 
-@app.route('/countries/<int:country_code>/cities', methods=['GET'])
+@app.route('/countries/<country_code>/cities', methods=['GET'])
 def get_country_cities_route(country_code):
     return get_country_cities()
 
@@ -88,15 +88,15 @@ def create_city_route(user_id):
 def get_cities_route():
     return get_cities()
 
-@app.route('/cities/<int:city_id>', methods=['GET'])
+@app.route('/cities/<city_id>', methods=['GET'])
 def retrieve_city_route(city_id):
     return retrieve_city()
 
-@app.route('/cities/<int:city_id>', methods=['PUT'])
+@app.route('/cities/<city_id>', methods=['PUT'])
 def update_city_route(city_id):
     return update_city()
 
-@app.route('/cities/<int:city_id>', methods=['DELETE'])
+@app.route('/cities/<city_id>', methods=['DELETE'])
 def del_city_route(city_id):
     return del_city()
 
@@ -112,23 +112,23 @@ def create_place_route():
 def get_places_route():
     return get_places()
 
-@app.route('/places/<int:place_id>', methods=['GET'])
+@app.route('/places/<place_id>', methods=['GET'])
 def get_place_route(place_id):
     return get_place(place_id)
 
-@app.route('/places/<int:place_id>', methods=['PUT'])
+@app.route('/places/<place_id>', methods=['PUT'])
 def update_place_route(place_id):
     return update_place(place_id)
 
-@app.route('/places/<int:place_id>', methods=['DELETE'])
+@app.route('/places/<place_id>', methods=['DELETE'])
 def delete_place_route(place_id):
     return delete_place(place_id)
 
-@app.route('/places/<int:place_id>/reviews', methods=['POST'])
+@app.route('/places/<place_id>/reviews', methods=['POST'])
 def create_place_review_route(place_id):
     return create_place_review(place_id)
 
-# @app.route('/places/<int:place_id>/reviews', methods=['GET'])
+# @app.route('/places/<place_id>/reviews', methods=['GET'])
 # def get_place_reviews_route(place_id):
 #     return get_place_reviews(place_id)
 
@@ -136,27 +136,27 @@ def create_place_review_route(place_id):
 review routes
 """
 
-@app.route('/places/<int:place_id>/reviews', methods=['POST'])
+@app.route('/places/<place_id>/reviews', methods=['POST'])
 def create_review_for_place_route(place_id):
     return create_review_for_place(place_id)
 
-@app.route('/users/<int:user_id>/reviews', methods=['GET'])
+@app.route('/users/<user_id>/reviews', methods=['GET'])
 def get_reviews_by_user_route(user_id):
     return get_reviews_by_user(user_id)
 
-@app.route('/places/<int:place_id>/reviews', methods=['GET'])
+@app.route('/places/<place_id>/reviews', methods=['GET'])
 def get_reviews_for_place_route(place_id):
     return get_reviews_for_place(place_id)
 
-@app.route('/reviews/<int:review_id>', methods=['GET'])
+@app.route('/reviews/<review_id>', methods=['GET'])
 def get_review_route(review_id):
     return get_review(review_id)
 
-@app.route('/reviews/<int:review_id>', methods=['PUT'])
+@app.route('/reviews/<review_id>', methods=['PUT'])
 def update_review_route(review_id):
     return update_review(review_id)
 
-@app.route('/reviews/<int:review_id>', methods=['DELETE'])
+@app.route('/reviews/<review_id>', methods=['DELETE'])
 def delete_review_route(review_id):
     return delete_review(review_id)
 

@@ -1,7 +1,9 @@
 # from flask import Flask
 from Persistance import data_management as DM
 from Model import place
+from flask import jsonify
 
+manipulate_data = DM.DataManager()
 
 def create_place(request_data):
     """
@@ -19,7 +21,6 @@ def create_place(request_data):
               request_data.get("longitude"), request_data.get("number_of_rooms"),
               request_data.get("bathrooms"),
               request_data.get("price_per_night"), request_data.get("max_guests"), request_data.get("amenities"))
-    manipulate_data = DM.DataManager()
     data = place_obj.to_dict()
     # data["created_at"] = place_obj.created_at
     manipulate_data.save("places", data, place_obj.host_id, place_obj.place_name)
@@ -29,11 +30,11 @@ def create_place(request_data):
 
 def get_places():
     """Get all places function"""
-    pass
+    return jsonify(manipulate_data.get("places")), 200
 
-def get_place():
+def get_place(id):
     """Get one place and return it"""
-    pass
+    return jsonify(manipulate_data.get("places", id)), 200
 
 def update_place():
     pass

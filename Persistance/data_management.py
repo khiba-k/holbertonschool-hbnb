@@ -81,6 +81,12 @@ class DataManager(IPersistenceManager):
                         return data["users"][host_id]
                 if entity_type in data:
                     if entity_id is not None:
+                        if entity_type in ["places", "amenities"]:
+                            for i in data[entity_type]:
+                                if i.get("id") == entity_id:
+                                    return i
+                        elif entity_type == "email":
+                            return data["email"]
                         return data[entity_type].get(entity_id)
                     return data.get(entity_type)
                 return None
