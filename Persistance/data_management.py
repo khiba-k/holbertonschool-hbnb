@@ -157,6 +157,7 @@ class DataManager(IPersistenceManager):
             
             with open("data_file.json", "w", encoding="utf-8") as file:
                 json.dump(file_data, file, indent=4)
+            return {"deleted": entity_id}
         except:
             return "something went wrong"
         return None
