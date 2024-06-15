@@ -53,12 +53,10 @@ class User:
     def save_to_file(self):
         """Saves user information to json file
         """
-        if self.email not in User.emails:
-            User.emails.append(self.email)
-            data_manager = DataManager()
-            data_manager.save("users", self.to_dict(), None, self.user_id)
-        else:
-            return "Email already exists"
+        
+        data_manager = DataManager()
+        data_manager.save("emails", self.email, None,  self.user_id)
+        data_manager.save("users", self.to_dict(), None, self.user_id)
     
     # def get_user(self):
     #     """Retrieve user information from json file
@@ -82,6 +80,7 @@ class User:
         """
         data_management = DataManager()
         data_management.delete("users", self.user_id)
+        data_management.delete("emails", self.user_id)
 
     
 

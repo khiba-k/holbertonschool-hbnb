@@ -18,7 +18,7 @@ class DataManager(IPersistenceManager):
                     "reviews": {},
                     "places": [],
                     "amenities": [],
-                    "emails": []
+                    "emails": {}
                 }, file, indent=4)
 
     def save(self, entity_type, data, host_id=None, entity_id=None):
@@ -47,7 +47,7 @@ class DataManager(IPersistenceManager):
             elif entity_id is not None:
                 file_data[entity_type][entity_id] = data
             else:
-                if entity_type in ["places", "amenities", "emails"]:
+                if entity_type in ["places", "amenities"]:
                     file_data[entity_type].append(data)
 
             with open("data_file.json", "w", encoding="utf-8") as file:
