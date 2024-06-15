@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """Defines class for User entity"""
 import uuid
-from place import Place
+# from Model.place import Place
 from base_model import BaseModel
 from Persistance.data_management import DataManager
 
@@ -29,13 +29,13 @@ class User:
             email (string): users email
         """
 
-        self.stamps = BaseModel
+        self.stamps = BaseModel()
         self.user_id = self.stamps.id
         self.firstName = firstName
         self.lastName = lastName
         self.__password = password
         self.email = email
-        self.created_at = self.stamps.created_at
+        self.created_at = str(self.stamps.created_at)
     
     def to_dict(self):
         """Creates a dictionary of all users
@@ -44,7 +44,7 @@ class User:
         data = {
             "first_name": self.firstName,
             "last_name": self.lastName,
-            "email": self.lastName,
+            "email": self.email,
             "password": self.__password,
             "created_at": self.created_at
         }

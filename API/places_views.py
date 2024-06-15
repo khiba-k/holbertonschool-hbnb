@@ -3,20 +3,22 @@ from Persistance import data_management as DM
 from Model import place
 
 
-def create_place(host_id,
-              place_name=None, description=None, address=None,
-              country_name=None, city_name=None, latitude=None,
-              longitude=None, number_of_rooms=None, bathrooms=None,
-              price_per_night=None, max_guests=None):
+def create_place(request_data):
     """
     Add place to data structure and save it using DataManager.
+
+    Args:
+        request_data (object): data from post method
     """
 
-    place_obj = place.Place(host_id,
-              place_name, description, address,
-              country_name, city_name, latitude,
-              longitude, number_of_rooms, bathrooms,
-              price_per_night, max_guests)
+    place_obj = place.Place(request_data.get("host_id"),
+              request_data.get("place_name"), request_data.get("description"),
+              request_data.get("address"),
+              request_data.get("country_name"), request_data.get("city_name"),
+              request_data.get("latitude"),
+              request_data.get("longitude"), request_data.get("number_of_rooms"),
+              request_data.get("bathrooms"),
+              request_data.get("price_per_night"), request_data.get("max_guests"))
     manipulate_data = DM.DataManager()
 
     place_data = manipulate_data.get("data_file.json", "places")
@@ -27,7 +29,7 @@ def create_place(host_id,
         data["created_at"] = place_obj.stamps.created_at
         place_data[place_obj.place_name] = data
         manipulate_data.save(place_data, place_obj.host_id, place_obj.place_name)
-        return "Place saved successfully."
+        return "Place creater successfully."
     return "Place name is already taken."
 
 def get_places():

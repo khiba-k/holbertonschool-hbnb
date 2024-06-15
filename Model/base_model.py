@@ -5,7 +5,7 @@ class BaseModel:
     """Base model class to use for stamps and id."""
     
     def __init__(self):
-        self.id = str(uuid.uuid4())
+        self.id = uuid.uuid4().hex
         self.created_at = datetime.now()
         self.updated_at = datetime.now()
 

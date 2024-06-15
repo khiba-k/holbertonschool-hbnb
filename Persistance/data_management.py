@@ -1,4 +1,4 @@
-from interface import IPersistenceManager
+from Persistance.interface import IPersistenceManager
 import json
 import os
 
@@ -12,7 +12,13 @@ class DataManager(IPersistenceManager):
         # Ensure the file exists
         if not os.path.exists(self.file_path):
             with open(self.file_path, "w", encoding="utf-8") as file:
-                json.dump({}, file)
+                json.dump({
+                    "users": {},
+                    "countries": {},
+                    "reviews": {},
+                    "list_of_places": [],
+                    "list_of_amenities": []
+                }, file, indent=4)
 
     def save(self, entity_type, data, host_id=None, entity_id=None):
         """

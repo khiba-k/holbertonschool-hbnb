@@ -1,16 +1,28 @@
 #!/usr/bin/python3
-from flask import Flask, requests,jsonify
+from flask import jsonify
+import sys
+import os
+
+# Get the directory containing this script
+current_dir = os.path.dirname(__file__)
+
+# Construct the path to the Model directory
+model_path = os.path.join(current_dir, '..', 'Model')
+
+# Add Model directory to sys.path
+sys.path.append(model_path)
+
 from Model.user import User
 from Persistance.data_management import DataManager
 
 
 
-def create_user():
+def create_user(data):
     """Create new user
     """
-    data = request.json
-    first_name = data.get('firstName')
-    last_name = data.get('lastName')
+    
+    first_name = data.get('first_name')
+    last_name = data.get('last_name')
     password = data.get('password')
     email = data.get('email')
     
@@ -42,8 +54,8 @@ def get_specific_user(user_id):
     else:
         return jsonify({"message": "User not found"}), 404
 
-def update_user(user_id):
-    data = request.json
+def update_user(user_id, data):
+    data = data
     data_manager = DataManager()
     
     existing_user = data_manager.get("users", user_id)
@@ -70,7 +82,4 @@ def delete_user(user_id):
     if result == "something went wrong":
         return jsonify({"message": "User not found"}), 404
     return jsonify({"message": "User deleted successfully"}), 200
-
-if __name__ == '__main__':
-    app.run(debug=True)
 

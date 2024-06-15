@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 from country import Country
 from base_model import BaseModel
+from Model.country import Country
 
 class Place(BaseModel):
     """
