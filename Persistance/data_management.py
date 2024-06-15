@@ -1,4 +1,5 @@
 from Persistance.interface import IPersistenceManager
+from Model import base_model as bm
 import json
 import os
 
@@ -110,7 +111,9 @@ class DataManager(IPersistenceManager):
             entity_id (string): ID of the entity to update.
             data (object): Updated information.
         """
-
+        stamps = bm.BaseModel()
+        data["updated_at"] = stamps.updated_at
+        
         try:
             with open("data_file.json", "r", encoding="utf-8") as file:
                 file_data = json.load(file)
@@ -128,7 +131,12 @@ class DataManager(IPersistenceManager):
             elif entity_type not in file_data:
                     return "Entity does does not exist"
             elif entity_id is not None:
-                file_data[entity_type][entity_id] = data
+                if entity_type in ["places", "amenities"]:
+                    for i in file_data[entity_type]:
+                        if i.get("id") == entity_id:
+                            file_data[entity_type][i] = data
+                elif entity_type in ["emails", "reviews", "countries"]:
+                    file_data[entity_type][entity_id] = data
             else:
                 file_data[entity_type] = data
 
