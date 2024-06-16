@@ -47,6 +47,9 @@ The
 ```
 option in the docker run command ensures that the data directory in the container is mapped to a directory on the host system, allowing data to persist across container restarts
 
+## UML Diagram Link
+https://lucid.app/lucidchart/dcd79419-3d5f-4edf-93e0-ed139113f230/edit?viewport_loc=-2397%2C-1009%2C1587%2C639%2C0_0&invitationId=inv_85dcf497-1b49-4e90-a15c-425b8b99904f
+
 
 ## Authors
 
