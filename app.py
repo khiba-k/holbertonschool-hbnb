@@ -98,7 +98,7 @@ def update_city_route(city_id):
 
 @app.route('/cities/<city_id>', methods=['DELETE'])
 def del_city_route(city_id):
-    return del_city()
+    return del_city(city_id)
 
 """
 places routes
