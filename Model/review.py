@@ -2,19 +2,21 @@
 from place import Place
 from user import User
 from base_model import BaseModel
+from datetime import datetime
 
 class Review(BaseModel):
-    def __init__(self, user, place, comment, ratings):
+    def __init__(self, user_id, place_id, name, comment, ratings):
         """Initialize a new Review instance."""
         super().__init__()
-        self.user = User.firstName + " " + User.lastName
-        self.place_name = place.name
+        self.user_id = user_id
+        self.place_id = place_id
+        self.name = name
         self.comment = comment
         self.ratings = ratings
 
     def save(self):
         """Save the review only if the user is not the host of the place."""
-        if self.user.id == self.place.host_id:
+        if self.user_id == self.place_id.host_id:
             raise ValueError("Host cannot review their own place.")
         super().save()
 
@@ -22,20 +24,12 @@ class Review(BaseModel):
         """Return a dictionary representation of the Review instance."""
         base_dict = super().to_dict()
         base_dict.update({
-            'user': self.user,
-            'place_name': self.place_name,
+            'user_id': self.user_id,
+            'place_id': self.place_id,
+            'name': self.name,
             'comment': self.comment,
             'ratings': self.ratings,
             'created_at': self.created_at.isoformat(),
             'updated_at': self.updated_at.isoformat()
         })
         return base_dict
-
-if __name__ == "__main__":
-    user = User("Khiba", "Koenane")
-    place = Place("cabin")
-    first_review = Review(user, place, "Loved the place!", 4)
-    
-    print(first_review.to_dict())  # Example output
-    first_review.save()
-    print(first_review.to_dict())
