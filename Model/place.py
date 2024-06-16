@@ -40,8 +40,8 @@ class Place(BaseModel):
             'description': self.description,
             'address': self.address,
             'host_id': self.host_id,
-            'place_id': self.place_id,
-            'country': self.country.country if self.country else None,
+            'id': self.place_id,
+            'country': self.country.country_name,
             'city': self.city,
             'latitude': self.latitude,
             'longitude': self.longitude,
@@ -49,8 +49,7 @@ class Place(BaseModel):
             'bathrooms': self.bathrooms,
             'price_per_night': self.price_per_night,
             'max_guests': self.max_guests,
-            'amenities': [amenity.to_dict() for amenity in self.amenities],
-            'created_at': str(self.created_at),
-            'index': self.index
+            'amenities': self.amenities,
+            'created_at': str(self.created_at)
         })
         return base_dict

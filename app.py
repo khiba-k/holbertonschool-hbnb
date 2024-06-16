@@ -112,25 +112,18 @@ def create_place_route():
 def get_places_route():
     return get_places()
 
-@app.route('/places/<place_id>', methods=['GET'])
+@app.route('/places/<string:place_id>', methods=['GET'])
 def get_place_route(place_id):
     return get_place(place_id)
 
-@app.route('/places/<place_id>', methods=['PUT'])
+@app.route('/places/<string:place_id>', methods=['PUT'])
 def update_place_route(place_id):
-    return update_place(place_id)
+    return update_place(request.get_json(), place_id)
 
-@app.route('/places/<place_id>', methods=['DELETE'])
+@app.route('/places/<string:place_id>', methods=['DELETE'])
 def delete_place_route(place_id):
     return delete_place(place_id)
 
-# @app.route('/places/<place_id>/reviews', methods=['POST'])
-# def create_place_review_route(place_id):
-#     return create_place_review(place_id)
-
-# @app.route('/places/<place_id>/reviews', methods=['GET'])
-# def get_place_reviews_route(place_id):
-#     return get_place_reviews(place_id)
 
 """
 review routes
