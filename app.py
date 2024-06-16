@@ -131,11 +131,11 @@ review routes
 
 @app.route('/places/<place_id>/reviews', methods=['POST'])
 def create_review_for_place_route(place_id):
-    return create_review_for_place(place_id)
+    return create_review_for_place(request.get_json(), place_id)
 
 @app.route('/users/<user_id>/reviews', methods=['GET'])
 def get_reviews_by_user_route(user_id):
-    return get_reviews_by_user(user_id)
+    return get_reviews_by_user(request.get_json(), user_id)
 
 @app.route('/places/<place_id>/reviews', methods=['GET'])
 def get_reviews_for_place_route(place_id):

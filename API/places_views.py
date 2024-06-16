@@ -20,9 +20,9 @@ def create_place(req_data):
             "max_guests", "amenities"
         ]
 
-        for field in required_fields:
-            if field not in request_data:
-                return jsonify({"error": f"Missing field: {field}"}), 400
+        # for field in required_fields:
+        #     if field not in request_data:
+        #         return jsonify({"error": f"Missing field: {field}"}), 400
 
         place_name = request_data.get("place_name").replace(" ", "_")
 

@@ -5,11 +5,52 @@
             "last_name": "Laury",
             "email": "badboy4life@gmail.com",
             "password": "$2b$12$OQsTANhFgC6uliof/ErMq.WSoTGvbUg3o83/0XW8OQvfV/cct2cT2",
-            "created_at": "2024-06-16 14:33:54.090271"
+            "created_at": "2024-06-16 14:33:54.090271",
+            "places": {
+                "Cabin": {
+                    "id": "aabd0f0e26e845e48ec9381ab18d8cba",
+                    "created_at": "2024-06-16 15:24:40.672256",
+                    "updated_at": "2024-06-16T15:24:40.672256",
+                    "place_name": "Cabin",
+                    "description": "A cabin in the woods.",
+                    "address": "123 Forest Maseu",
+                    "host_id": "5e18f27d756e4865a0e8bdc67e7e8a1b",
+                    "country": "Lesotho",
+                    "city": "Maseru",
+                    "latitude": 52.52,
+                    "longitude": 13.405,
+                    "number_of_rooms": 2,
+                    "bathrooms": 1,
+                    "price_per_night": 100,
+                    "max_guests": 4,
+                    "amenities": [
+                        "WiFi",
+                        "Fireplace",
+                        "Hot Tub"
+                    ]
+                }
+            }
         }
     },
     "countries": {},
-    "reviews": {},
+    "reviews": {
+        "f3da7667db9e41da93a8130394bb1588": {
+            "id": "f3da7667db9e41da93a8130394bb1588",
+            "created_at": "2024-06-16T17:50:20.425163",
+            "updated_at": "2024-06-16T17:50:20.425163",
+            "name": "Mike",
+            "comment": "This place was amazing!",
+            "ratings": 5
+        },
+        "37b78e298b8643b19e0d27da20efc6be": {
+            "id": "37b78e298b8643b19e0d27da20efc6be",
+            "created_at": "2024-06-16T19:38:12.726480",
+            "updated_at": "2024-06-16T19:38:12.726480",
+            "name": "Mike",
+            "comment": "This place was amazing!",
+            "ratings": 2
+        }
+    },
     "places": [
         {
             "id": "2b1c06ac4eef440f91c837bf6aeb828b",
@@ -21,6 +62,28 @@
             "host_id": "5194a853eefb4a739dfa7c7790dba5c8",
             "country": "Wonderland",
             "city": "Forestville",
+            "latitude": 52.52,
+            "longitude": 13.405,
+            "number_of_rooms": 2,
+            "bathrooms": 1,
+            "price_per_night": 100,
+            "max_guests": 4,
+            "amenities": [
+                "WiFi",
+                "Fireplace",
+                "Hot Tub"
+            ]
+        },
+        {
+            "id": "aabd0f0e26e845e48ec9381ab18d8cba",
+            "created_at": "2024-06-16 15:24:40.672256",
+            "updated_at": "2024-06-16T15:24:40.672256",
+            "place_name": "Cabin",
+            "description": "A cabin in the woods.",
+            "address": "123 Forest Maseu",
+            "host_id": "5e18f27d756e4865a0e8bdc67e7e8a1b",
+            "country": "Lesotho",
+            "city": "Maseru",
             "latitude": 52.52,
             "longitude": 13.405,
             "number_of_rooms": 2,
