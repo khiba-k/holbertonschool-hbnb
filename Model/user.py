@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """Defines class for User entity"""
-import uuid
-# from Model.place import Place
+import bcrypt
 from base_model import BaseModel
 from Persistance.data_management import DataManager
 
@@ -33,9 +32,22 @@ class User:
         self.user_id = self.stamps.id
         self.firstName = firstName
         self.lastName = lastName
-        self.__password = password
+        self.__password = self.hash_password(password)
         self.email = email
         self.created_at = str(self.stamps.created_at)
+
+    def hash_password(self, password):
+        """Hashes a password using bcrypt.
+
+        Args:
+            password (string): the plain-text password to hash
+
+        Returns:
+            string: the hashed password
+        """
+        salt = bcrypt.gensalt()
+        hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt)
+        return hashed_password.decode('utf-8')
     
     def to_dict(self):
         """Creates a dictionary of all users
@@ -55,9 +67,12 @@ class User:
         """
         
         data_manager = DataManager()
-        email_save_result = data_manager.save("emails", self.email, None,  self.user_id)
-        if email_save_result == "Email already exists":
-            return email_save_result
+        existing_emails = data_manager.get("emails")
+
+        if self.email in existing_emails.values():
+            return "Email already exists"
+        
+        data_manager.save("emails", self.email, None,  self.user_id)
         data_manager.save("users", self.to_dict(), None, self.user_id)
 
     def user_update(self):
