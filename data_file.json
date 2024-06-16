@@ -27,6 +27,13 @@
             "email": "mclovin@gmail.com",
             "password": "$2b$12$1hCHf.CDgqOsFB2EtY/CLuseXOnPR7UlxEG/slLErh4Fcs.O0hsbq",
             "created_at": "2024-06-16 11:55:43.406460"
+        },
+        "a3d217eb71eb49e6b7f761454842489f": {
+            "first_name": "Mc",
+            "last_name": "Lovin",
+            "email": "mclovin@gmail.com",
+            "password": "$2b$12$a6zjcj87TD9ITMmOD9pSlOMABxErvaS/BMue21SMs95TvNOJKuK9y",
+            "created_at": "2024-06-16 14:24:12.996622"
         }
     },
     "countries": {},

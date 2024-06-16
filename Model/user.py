@@ -67,9 +67,11 @@ class User:
         """
         
         data_manager = DataManager()
-        email_save_result = data_manager.save("emails", self.email, None,  self.user_id)
-        if email_save_result == "Email already exists":
-            return email_save_result
+        existing_emails = data_manager.get("emails")
+
+        if self.email in existing_emails.values():
+            return "Email already exists"
+        data_manager.save("emails", self.email, None,  self.user_id)
         data_manager.save("users", self.to_dict(), None, self.user_id)
 
     def user_update(self):
