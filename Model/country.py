@@ -6,7 +6,7 @@ from Persistance.data_management import DataManager as DM
 class Country(BaseModel):
     def __init__(self, country_name):
         super().__init__()
-        self.country = country_name
+        self.country_name = country_name
         self.cities = []
 
     def add_city(self, city):
@@ -17,12 +17,12 @@ class Country(BaseModel):
         return self.cities
 
     def get_country_name(self):
-        return self.country
+        return self.country_name
 
     def to_dict(self):
         base_dict = super().to_dict()
         base_dict.update({
-            "country": self.country,
+            "country": self.country_name,
             "cities": [city.to_dict() for city in self.cities]
         })
         return base_dict

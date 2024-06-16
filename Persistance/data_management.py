@@ -3,9 +3,10 @@ from Model import base_model as bm
 import json
 import os
 
+
 class DataManager(IPersistenceManager):
     """
-    class for data management
+    Class for data management
     """
 
     def __init__(self, file_path="data_file.json"):
@@ -33,32 +34,29 @@ class DataManager(IPersistenceManager):
             entity_id (string): ID of entity.
         """
         try:
-            with open("data_file.json", "r", encoding="utf-8") as file:
+            with open(self.file_path, "r+", encoding="utf-8") as file:
                 file_data = json.load(file)
-                
-            if host_id is not None and entity_id is not None:
-                if host_id not in file_data["users"]:
-                    if entity_type == "users":
-                        file_data["users"][host_id] = {}
-                    else:
-                        return "Host does not exist"
-                if entity_type not in file_data["users"][host_id]:
-                    file_data["users"][host_id][entity_type] = {}
-                file_data["users"][host_id][entity_type][entity_id] = data
-            elif entity_id is not None:
-                file_data[entity_type][entity_id] = data
-            else:
-                if entity_type in ["places", "amenities"]:
-                    file_data[entity_type].append(data)
 
-            with open("data_file.json", "w", encoding="utf-8") as file:
+                if host_id and entity_id:
+                    if host_id not in file_data["users"]:
+                        if entity_type == "users":
+                            file_data["users"][host_id] = {}
+                        else:
+                            return "Host does not exist"
+                    if entity_type not in file_data["users"][host_id]:
+                        file_data["users"][host_id][entity_type] = {}
+                    file_data["users"][host_id][entity_type][entity_id] = data
+                elif entity_id:
+                    file_data[entity_type][entity_id] = data
+                else:
+                    if entity_type in ["places", "amenities"]:
+                        file_data[entity_type].append(data)
+
+                file.seek(0)
                 json.dump(file_data, file, indent=4)
-        except IOError as e:
+                file.truncate()
+        except (IOError, json.JSONDecodeError) as e:
             print(f"Error saving data: {e}")
-        except json.JSONDecodeError as e:
-            print(f"Error decoding JSON: {e}")
-        return None
-    
 
     def get(self, entity_type, entity_id=None, host_id=None):
         """
@@ -67,111 +65,99 @@ class DataManager(IPersistenceManager):
         Args:
             entity_type (string): Type of entity (places, users, amenities, cities, or countries).
             entity_id (string): ID of places, users, amenities, cities, or countries.
-            host_id (string): ID of host
+            host_id (string): ID of host.
 
         Returns:
             dict: Python dictionary of requested data.
         """
         try:
-            with open("data_file.json", "r", encoding="utf-8") as file:
+            with open(self.file_path, "r", encoding="utf-8") as file:
                 data = json.load(file)
-                if host_id is not None:
-                    if entity_type in data["users"][host_id]:
-                        if entity_id is not None:
+                if host_id:
+                    if entity_type in data["users"].get(host_id, {}):
+                        if entity_id:
                             return data["users"][host_id][entity_type].get(entity_id)
                         return data["users"][host_id]
                 if entity_type in data:
-                    if entity_id is not None:
+                    if entity_id:
                         if entity_type in ["places", "amenities"]:
-                            for i in data[entity_type]:
-                                if i.get("id") == entity_id:
-                                    return i
-                        # elif entity_type == "email":
-                        #     return data["email"].get(entity_id)
+                            for item in data[entity_type]:
+                                if item.get("id") == entity_id:
+                                    return item
                         return data[entity_type].get(entity_id)
                     return data.get(entity_type)
-                return None
-        except IOError as e:
+        except (IOError, json.JSONDecodeError) as e:
             return f"Error loading data: {e}"
-        except json.JSONDecodeError as e:
-            return f"Error decoding JSON: {e}"
+        return None
 
-
-    def update(self,  entity_type, data, host_id=None, entity_id=None):
+    def update(self, entity_type, data, host_id=None, entity_id=None):
         """
         Update data in JSON file.
 
         Args:
             entity_type (string): Type of entity (places, users, amenities, cities, or countries).
-            data (object): dictionary storing updated information
-            host_id (string): id of host
+            data (object): Dictionary storing updated information.
+            host_id (string): ID of host.
             entity_id (string): ID of the entity to update.
-            data (object): Updated information.
         """
         stamps = bm.BaseModel()
         data["updated_at"] = stamps.updated_at
-        
+
         try:
-            with open("data_file.json", "r", encoding="utf-8") as file:
+            with open(self.file_path, "r+", encoding="utf-8") as file:
                 file_data = json.load(file)
 
-            if host_id is not None and entity_id is not None:
-                if host_id not in file_data["users"]:
-                    return "Host does not exist"
-                else:
+                if host_id and entity_id:
+                    if host_id not in file_data["users"]:
+                        return "Host does not exist"
                     if entity_type not in file_data["users"][host_id]:
                         return "Entity does not exist"
-                    else:
+                    if entity_id in file_data["users"][host_id][entity_type]:
                         file_data["users"][host_id][entity_type][entity_id] = data
-            elif host_id is not None:
-                file_data["users"][host_id] = data
-            elif entity_type not in file_data:
-                    return "Entity does does not exist"
-            elif entity_id is not None:
-                if entity_type in ["places", "amenities"]:
-                    for i in file_data[entity_type]:
-                        if i.get("id") == entity_id:
-                            file_data[entity_type][i] = data
-                elif entity_type in ["emails", "reviews", "countries"]:
-                    file_data[entity_type][entity_id] = data
-            else:
-                file_data[entity_type] = data
+                elif entity_id:
+                    if entity_type in ["places", "amenities"]:
+                        for i, item in enumerate(file_data[entity_type]):
+                            if item.get("id") == entity_id:
+                                file_data[entity_type][i] = data
+                                break
+                    elif entity_type in ["emails", "reviews", "countries"]:
+                        file_data[entity_type][entity_id] = data
+                else:
+                    file_data[entity_type] = data
 
-            with open("data_file.json", "w", encoding="utf-8") as file:
+                file.seek(0)
                 json.dump(file_data, file, indent=4)
-        except:
-            return "something went wrong"
+                file.truncate()
+        except (IOError, json.JSONDecodeError) as e:
+            return f"Error updating data: {e}"
         return None
-        
 
     def delete(self, entity_type, entity_id=None, host_id=None):
         """
         Delete information from JSON file.
 
         Args:
-             entity_type (string): Type of entity (places, users, amenities, cities, or countries).
+            entity_type (string): Type of entity (places, users, amenities, cities, or countries).
             entity_id (string): ID of the entity to delete.
-            host_id (string): id of host
+            host_id (string): ID of host.
         """
-
         try:
-            with open("data_file.json", "r", encoding="utf-8") as file:
+            with open(self.file_path, "r+", encoding="utf-8") as file:
                 file_data = json.load(file)
 
-            if host_id is not None:
-                del file_data["users"][host_id][entity_type][entity_id]
-            else:
-                if "host_id" in file_data[entity_type][entity_id].keys():
-                    if entity_id is not None:
-                        del file_data["users"][file_data[entity_type][entity_id].get("host_id")][entity_type][entity_id]
+                if host_id:
+                    del file_data["users"][host_id][entity_type][entity_id]
+                else:
+                    if "host_id" in file_data[entity_type][entity_id]:
+                        host_id = file_data[entity_type][entity_id]["host_id"]
+                        del file_data["users"][host_id][entity_type][entity_id]
                     else:
-                        del file_data["users"][file_data[entity_type][entity_id].get("host_id")][entity_type]
-                del file_data[entity_type][entity_id]
-            
-            with open("data_file.json", "w", encoding="utf-8") as file:
+                        del file_data[entity_type][entity_id]
+
+                file.seek(0)
                 json.dump(file_data, file, indent=4)
+                file.truncate()
             return {"deleted": entity_id}
-        except:
-            return "something went wrong"
+        except (IOError, json.JSONDecodeError, KeyError) as e:
+            return f"Error deleting data: {e}"
         return None
-        
