@@ -148,7 +148,7 @@ def get_review_route(review_id):
 
 @app.route('/reviews/<review_id>', methods=['PUT'])
 def update_review_route(review_id):
-    return update_review(review_id)
+    return update_review(request.get_json(), review_id)
 
 @app.route('/reviews/<review_id>', methods=['DELETE'])
 def delete_review_route(review_id):

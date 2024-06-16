@@ -1,18 +1,20 @@
 #!/usr/bin/python3
 from place import Place
 from user import User
+
 from base_model import BaseModel
 from datetime import datetime
 
 class Review(BaseModel):
-    def __init__(self, user_id, place_id, name, comment, ratings):
+    def __init__(self, user_id, place_id, comment, rating):
         """Initialize a new Review instance."""
         super().__init__()
         self.user_id = user_id
         self.place_id = place_id
-        self.name = name
+        # self.name = name
         self.comment = comment
-        self.ratings = ratings
+        self.ratings = rating
+        self.review_id = self.id
 
     def save(self):
         """Save the review only if the user is not the host of the place."""
@@ -26,10 +28,10 @@ class Review(BaseModel):
         base_dict.update({
             'user_id': self.user_id,
             'place_id': self.place_id,
-            'name': self.name,
             'comment': self.comment,
             'ratings': self.ratings,
             'created_at': self.created_at.isoformat(),
-            'updated_at': self.updated_at.isoformat()
+            'updated_at': self.updated_at.isoformat(),
+            'id': self.review_id
         })
         return base_dict

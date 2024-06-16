@@ -12,7 +12,7 @@ data_manager = DataManager()
 
 def create_review_for_place(review_data, place_id):
     """Create a new review for a place"""
-    data = request.json
+    data = review_data
     user_id = data.get('user_id')
     rating = data.get('rating')
     comment = data.get('comment')
@@ -31,29 +31,16 @@ def create_review_for_place(review_data, place_id):
     if not data_manager.get('places', place_id):
         abort(404, f'Place with ID {place_id} not found')
 
-    # Additional business logic to prevent hosts from reviewing their own place goes here
-    # Assuming such logic is implemented in the data manager or elsewhere
-
     # Create review object
-    review = {
-        'place_id': place_id,
-        'user_id': user_id,
-        'rating': rating,
-        'comment': comment,
-        'created_at': datetime.now(),
-        'updated_at': None  # To be updated on modification
-    }
+    review = Review(review_data.get("user_id"), place_id, review_data.get("comment"), review_data.get("rating"))
 
     # Save review
-    review_id = data_manager.save('reviews', review)
+    data_manager.save('reviews', review.to_dict(), review.user_id, review.review_id)
 
-    data_manager.save(entity_type, review_id)
-    data_manager.save(entity_type, review_id)
-
-    return jsonify(review), 201
+    return jsonify(review.to_dict()), 201
 
 
-def get_reviews_by_user():
+def get_reviews_by_user(user_id):
     """Retrieve all reviews written by a specific user"""
     reviews = [review for review in data_manager.get('reviews').values() if review['user_id'] == user_id]
     if not reviews:
@@ -61,18 +48,26 @@ def get_reviews_by_user():
 
     return jsonify(reviews), 200
 
-def get_reviews_for_place():
-    pass
+def get_reviews_for_place(place_id):
+    """Retrieve reviews for a specific place."""
+    # Check if place exists
+    place = data_manager.get('places', place_id)
+    if not place:
+        abort(404, f'Place with ID {place_id} not found')
 
-def get_review(self, review_id):
+def get_review(review_id):
     review = data_manager.get('reviews', review_id)
     if not review:
         abort(404, f'Review with ID {review_id} not found')
 
     return jsonify(review), 200
 
-def update_review(self, review_id):
+def update_review(review_data, review_id):
     # Validate input
+    user_id = review_data.get("user_id")
+    rating = review_data.get("rating")
+    comment = review_data.get("comment")
+    
     if not (user_id and rating and comment):
         abort(400, 'Missing required fields')
 
@@ -85,21 +80,22 @@ def update_review(self, review_id):
     if not review:
         abort(404, f'Review with ID {review_id} not found')
 
-    # Ensure user cannot update other user's reviews (if such logic applies)
-    if review['user_id'] != user_id:
-        abort(403, 'You are not allowed to update this review')
+    # Ensure user cannot update other user's reviews
+    # if review['user_id'] != user_id:
+    #     abort(403, 'You are not allowed to update this review')
 
     # Update review object
-    review.update({
-        'rating': rating,
-        'comment': comment,
-        'updated_at': datetime.utcnow().isoformat()
-    })
+    review['user_id'] = user_id
+    review['rating'] = rating
+    review['comment'] = comment
+    review['updated_at'] = None
 
     # Save updated review
-    data_manager.update('reviews', review_id, review)
+    data_manager.update('reviews', review, review_id)
 
     return jsonify(review), 200
+
+
 def delete_review(self, review_id):
     """Delete a specific review"""
     review = data_manager.get('reviews', review_id)
@@ -110,5 +106,11 @@ def delete_review(self, review_id):
 
     return '', 204
 
-
-    data_ma
+# curl -X POST \
+#   http://localhost:50000/places/aabd0f0e26e845e48ec9381ab18d8cba/reviews \
+#   -H 'Content-Type: application/json' \
+#   -d '{
+#     "user_id": "5e18f27d756e4865a0e8bdc67e7e8a1b",
+#     "rating": 5,
+#     "comment": "This place was amazing!"
+# }'
