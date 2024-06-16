@@ -34,6 +34,9 @@ class DataManager(IPersistenceManager):
         try:
             with open("data_file.json", "r", encoding="utf-8") as file:
                 file_data = json.load(file)
+
+            if entity_type == "emails" and data in file_data["emails"].values():
+                return "Email already exists"
                 
             if host_id is not None and entity_id is not None:
                 if host_id not in file_data["users"]:

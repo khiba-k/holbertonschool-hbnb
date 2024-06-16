@@ -78,7 +78,8 @@ def delete_user(user_id):
     """Delete Data from JSON file"""
     data_manager = DataManager()
     result = data_manager.delete("users", user_id)
-
+    data_manager.delete("emails", user_id)
+    
     if result == "something went wrong":
         return jsonify({"message": "User not found"}), 404
     return jsonify({"message": "User deleted successfully"}), 200

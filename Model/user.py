@@ -55,19 +55,10 @@ class User:
         """
         
         data_manager = DataManager()
-        data_manager.save("emails", self.email, None,  self.user_id)
+        email_save_result = data_manager.save("emails", self.email, None,  self.user_id)
+        if email_save_result == "Email already exists":
+            return email_save_result
         data_manager.save("users", self.to_dict(), None, self.user_id)
-    
-    # def get_user(self):
-    #     """Retrieve user information from json file
-    #     """
-    #     data_manager = DataManager()
-    #     user_data = data_manager.get("users", self.user_id)
-    #     if user_data:
-    #         print(json.dumps(user_data, indent=4))
-    #     else:
-    #         print("User not found")
-
 
     def user_update(self):
         """Update user information in json file
@@ -79,8 +70,10 @@ class User:
         """Deletes user information from json file
         """
         data_management = DataManager()
-        data_management.delete("users", self.user_id)
-        data_management.delete("emails", self.user_id)
+        email_delete_result = data_management.delete("users", self.user_id)
+        user_delete_result = data_management.delete("emails", self.user_id)
+
+        return email_delete_result, user_delete_result
 
     
 
