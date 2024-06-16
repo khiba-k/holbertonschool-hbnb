@@ -26,6 +26,8 @@ class Country(BaseModel):
             "cities": [city.to_dict() for city in self.cities]
         })
         return base_dict
+    
+    
 
 # Example Usage
 # lesotho = Country("Lesotho")
