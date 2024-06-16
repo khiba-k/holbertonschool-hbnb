@@ -31,11 +31,18 @@ def create_place(request_data):
 
 def get_places():
     """Get all places function"""
-    return jsonify(manipulate_data.get(entity_type)), 200
+    return jsonify(list(manipulate_data.get(entity_type).keys())), 200
 
 def get_place(id):
     """Get one place and return it"""
-    return jsonify(manipulate_data.get(entity_type, id)), 200
+    place  = manipulate_data.get(entity_type, id)
+    amenity = manipulate_data.get("amenities")
+    if place.get("amenities") is not None:
+        if amenity:
+            for i in amenity:
+                if i.get("id") in place.get("amenities"):
+                    place["linked_amenities"] = i
+    return jsonify(place), 200
 
 def update_place(data):
     """update a spefic place"""

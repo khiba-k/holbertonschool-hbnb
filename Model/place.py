@@ -7,8 +7,6 @@ class Place(BaseModel):
     Defines a place.
     """
 
-    index = 0
-
     def __init__(self, host_id: str, place_name: str = None, description: str = None, 
                  address: str = None, country_name: str = None, city_name: str = None, 
                  latitude: float = None, longitude: float = None, number_of_rooms: int = None, 
@@ -28,8 +26,7 @@ class Place(BaseModel):
         self.bathrooms = bathrooms
         self.price_per_night = price_per_night
         self.max_guests = max_guests
-        self.amenities = []
-        self.index = self.index + 1
+        self.amenities = amenities
 
     def add_amenity(self, amenity):
         """Add an amenity to the place."""
