@@ -65,7 +65,7 @@ class DataManager(IPersistenceManager):
         Args:
             entity_type (string): Type of entity (places, users, amenities, cities, or countries).
             entity_id (string): ID of places, users, amenities, cities, or countries.
-            host_id (string): ID of host.
+            host_id (string): ID of host
 
         Returns:
             dict: Python dictionary of requested data.
@@ -73,22 +73,26 @@ class DataManager(IPersistenceManager):
         try:
             with open(self.file_path, "r", encoding="utf-8") as file:
                 data = json.load(file)
-                if host_id:
-                    if entity_type in data["users"].get(host_id, {}):
-                        if entity_id:
+                if host_id is not None:
+                    if entity_type in data["users"][host_id]:
+                        if entity_id is not None:
                             return data["users"][host_id][entity_type].get(entity_id)
                         return data["users"][host_id]
                 if entity_type in data:
-                    if entity_id:
-                        if entity_type in ["places", "amenities"]:
-                            for item in data[entity_type]:
-                                if item.get("id") == entity_id:
-                                    return item
+                    if isinstance(data[entity_type], list) and entity_id is not None:
+                        for item in data[entity_type]:
+                            if item['id'] == entity_id:
+                                return item
+                    if entity_id is not None:
                         return data[entity_type].get(entity_id)
                     return data.get(entity_type)
-        except (IOError, json.JSONDecodeError) as e:
-            return f"Error loading data: {e}"
-        return None
+                return None
+        except IOError as e:
+            print(f"Error loading data: {e}")
+            return None
+        except json.JSONDecodeError as e:
+            print(f"Error decoding JSON: {e}")
+            return None
 
     def update(self, entity_type, data, host_id=None, entity_id=None):
         """
