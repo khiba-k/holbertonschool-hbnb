@@ -23,7 +23,7 @@ class DataManager(IPersistenceManager):
                     "emails": {}
                 }, file, indent=4)
 
-    def save(self, entity_type, data, host_id=None, entity_id=None):
+    def save(self, entity_type, data, host_id=None, entity_id=None, country_code=None, city_id=None):
         """
         Save data to JSON file.
 
@@ -36,6 +36,14 @@ class DataManager(IPersistenceManager):
         try:
             with open(self.file_path, "r+", encoding="utf-8") as file:
                 file_data = json.load(file)
+
+                if country_code:
+                    if country_code in file_data["countries"]:
+                        if city_id:
+                            if city_id not in file_data["countries"][country_code]:
+                                file_data["countries"][country_code][city_id] = data
+                        else:
+                            file_data["countries"][country_code] = data
 
                 if host_id and entity_id:
                     if host_id not in file_data["users"]:
@@ -61,7 +69,7 @@ class DataManager(IPersistenceManager):
         except (IOError, json.JSONDecodeError) as e:
             print(f"Error saving data: {e}")
 
-    def get(self, entity_type, entity_id=None, host_id=None):
+    def get(self, entity_type, entity_id=None, host_id=None, country_code=None, city_id=None):
         """
         Load information from data file.
 
@@ -76,6 +84,13 @@ class DataManager(IPersistenceManager):
         try:
             with open(self.file_path, "r", encoding="utf-8") as file:
                 data = json.load(file)
+
+                if country_code:
+                    if country_code in data["countries"]:
+                        if city_id:
+                            if city_id in data["countries"][country_code]:
+                                return data["countries"][country_code][city_id]
+
                 if host_id is not None:
                     if entity_type == "users":
                         if entity_type in data["users"][host_id]:
@@ -100,7 +115,7 @@ class DataManager(IPersistenceManager):
             print(f"Error decoding JSON: {e}")
             return None
 
-    def update(self, entity_type, data, host_id=None, entity_id=None):
+    def update(self, entity_type, data, host_id=None, entity_id=None, country_code=None, city_id=None):
         """
         Update data in JSON file.
 
@@ -112,6 +127,12 @@ class DataManager(IPersistenceManager):
         """
         stamps = bm.BaseModel()
         data["updated_at"] = stamps.updated_at
+
+        if country_code:
+            if country_code in file_data["countries"]:
+                if city_id:
+                    if city_id in file_data["countries"][country_code]:
+                        file_data["countries"][country_code][city_id] = data
 
         try:
             with open(self.file_path, "r+", encoding="utf-8") as file:
@@ -145,7 +166,7 @@ class DataManager(IPersistenceManager):
             return f"Error updating data: {e}"
         return None
 
-    def delete(self, entity_type, entity_id=None, host_id=None):
+    def delete(self, entity_type, entity_id=None, host_id=None, country_code=None, city_id=None):
         """
         Delete information from JSON file.
 
@@ -157,6 +178,12 @@ class DataManager(IPersistenceManager):
         try:
             with open(self.file_path, "r+", encoding="utf-8") as file:
                 file_data = json.load(file)
+
+                if country_code:
+                    if country_code in file_data["countries"]:
+                        if city_id:
+                            if city_id in file_data["countries"][country_code]:
+                                del file_data["countries"][country_code][city_id]
 
                 if host_id:
                     if entity_type == "users":
