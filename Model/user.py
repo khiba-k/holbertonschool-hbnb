@@ -71,6 +71,7 @@ class User:
 
         if self.email in existing_emails.values():
             return "Email already exists"
+        
         data_manager.save("emails", self.email, None,  self.user_id)
         data_manager.save("users", self.to_dict(), None, self.user_id)
 
