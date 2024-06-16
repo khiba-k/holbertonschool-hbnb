@@ -20,6 +20,13 @@
             "email": "johndoe@gmail.com",
             "password": "hidden",
             "created_at": "2024-06-16 11:32:07.078569"
+        },
+        "ebaa308c1b2c497f987c3e37968a815c": {
+            "first_name": "Mc",
+            "last_name": "Lovin",
+            "email": "mclovin@gmail.com",
+            "password": "$2b$12$1hCHf.CDgqOsFB2EtY/CLuseXOnPR7UlxEG/slLErh4Fcs.O0hsbq",
+            "created_at": "2024-06-16 11:55:43.406460"
         }
     },
     "countries": {},
@@ -29,6 +36,7 @@
     "emails": {
         "937048fbcfb247a3999f833d0c978625": "khibakoenane@gmail.com",
         "9cdf2077598347368f10539f2f440169": "janedoe@gmail.com",
-        "bdc027a34c2e4588b822239eb7781d9e": "johndoe@gmail.com"
+        "bdc027a34c2e4588b822239eb7781d9e": "johndoe@gmail.com",
+        "ebaa308c1b2c497f987c3e37968a815c": "mclovin@gmail.com"
     }
 }
