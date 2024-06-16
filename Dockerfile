@@ -4,7 +4,7 @@ FROM python:3.9-alpine
 # Enviromental variables
 ENV PYTHONUNBUFFERED=1\
     APP_HOME=app\
-    APP_PORT=5000
+    APP_PORT=50000
 
 #The home directory of the app
 WORKDIR $APP_HOME
@@ -27,4 +27,4 @@ VOLUME [ "$APP_HOME/data" ]
 EXPOSE $APP_PORT
 
 #Run the app using Ginicorn
-CMD ["sh", "-c", "gunicorn --bind 127.0.0.1:$APP_PORT wsip.app"]
+CMD ["sh", "-c", "gunicorn --bind 127.0.0.1:$APP_PORT wsgi.app"]
