@@ -43,9 +43,12 @@ class DataManager(IPersistenceManager):
                             file_data["users"][host_id] = {}
                         else:
                             return "Host does not exist"
-                    if entity_type not in file_data["users"][host_id]:
-                        file_data["users"][host_id][entity_type] = {}
-                    file_data["users"][host_id][entity_type][entity_id] = data
+                    if entity_type == "users":
+                        if entity_type not in file_data["users"][host_id]:
+                            file_data["users"][host_id][entity_type] = {}
+                        file_data["users"][host_id][entity_type][entity_id] = data
+                    else:
+                        file_data[entity_type][entity_id] = data
                 elif entity_id:
                     file_data[entity_type][entity_id] = data
                 else:
@@ -74,10 +77,13 @@ class DataManager(IPersistenceManager):
             with open(self.file_path, "r", encoding="utf-8") as file:
                 data = json.load(file)
                 if host_id is not None:
-                    if entity_type in data["users"][host_id]:
-                        if entity_id is not None:
-                            return data["users"][host_id][entity_type].get(entity_id)
-                        return data["users"][host_id]
+                    if entity_type == "users":
+                        if entity_type in data["users"][host_id]:
+                            if entity_id is not None:
+                                return data["users"][host_id][entity_type].get(entity_id)
+                            return data["users"][host_id]
+                    else:
+                        return data[entity_type][entity_id]
                 if entity_type in data:
                     if isinstance(data[entity_type], list) and entity_id is not None:
                         for item in data[entity_type]:
@@ -112,12 +118,15 @@ class DataManager(IPersistenceManager):
                 file_data = json.load(file)
 
                 if host_id and entity_id:
-                    if host_id not in file_data["users"]:
-                        return "Host does not exist"
-                    if entity_type not in file_data["users"][host_id]:
-                        return "Entity does not exist"
-                    if entity_id in file_data["users"][host_id][entity_type]:
-                        file_data["users"][host_id][entity_type][entity_id] = data
+                    if entity_type == "users":
+                        if host_id not in file_data["users"]:
+                            return "Host does not exist"
+                        if entity_type not in file_data["users"][host_id]:
+                            return "Entity does not exist"
+                        if entity_id in file_data["users"][host_id][entity_type]:
+                            file_data["users"][host_id][entity_type][entity_id] = data
+                    else:
+                        file_data[entity_type][entity_id] = data
                 elif entity_id:
                     if entity_type in ["places", "amenities"]:
                         for i, item in enumerate(file_data[entity_type]):
@@ -150,7 +159,10 @@ class DataManager(IPersistenceManager):
                 file_data = json.load(file)
 
                 if host_id:
-                    del file_data["users"][host_id][entity_type][entity_id]
+                    if entity_type == "users":
+                        del file_data["users"][host_id][entity_type][entity_id]
+                    else:
+                        del file_data[entity_type][entity_id]
                 else:
                     if "host_id" in file_data[entity_type][entity_id]:
                         host_id = file_data[entity_type][entity_id]["host_id"]
@@ -164,4 +176,3 @@ class DataManager(IPersistenceManager):
             return {"deleted": entity_id}
         except (IOError, json.JSONDecodeError, KeyError) as e:
             return f"Error deleting data: {e}"
-        return None
