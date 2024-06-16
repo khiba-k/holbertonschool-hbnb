@@ -28,10 +28,6 @@ class Place(BaseModel):
         self.max_guests = max_guests
         self.amenities = amenities
 
-    def add_amenity(self, amenity):
-        """Add an amenity to the place."""
-        self.amenities.append(amenity)
-
     def to_dict(self):
         """Return a dictionary representation of the Place instance."""
         base_dict = super().to_dict()
