@@ -1,7 +1,8 @@
 from flask import Flask, request, jsonify
 from API.user_views import create_user, get_all_users, get_specific_user, update_user, delete_user
 from API.amenities_views import create_amenity, get_amenities, get_amenity, update_amenity, delete_amenity
-from API.countries_views import get_countries, get_country, get_country_cities, create_city, get_cities, retrieve_city, update_city, del_city
+from API.country_api import get_all_countries, get_country, get_country_cities
+from API.city_api import create_city, get_all_cities, get_specific_city, update_city, delete_city
 from API.places_views import create_place, get_places, get_place, update_place, delete_place
 from API.reviews_views import create_review_for_place, get_reviews_by_user, get_reviews_for_place, get_review, update_review, delete_review
 
@@ -68,7 +69,7 @@ countries routes
 # Countries routes and paths
 @app.route('/countries', methods=['GET'])
 def countries_route():
-    return get_countries()
+    return get_all_countries()
 
 @app.route('/countries/<country_code>', methods=['GET'])
 def get_country_route(country_code):
@@ -76,7 +77,7 @@ def get_country_route(country_code):
 
 @app.route('/countries/<country_code>/cities', methods=['GET'])
 def get_country_cities_route(country_code):
-    return get_country_cities()
+    return get_country_cities(country_code)
 
 # City routes and paths
 
@@ -86,11 +87,11 @@ def create_city_route(user_id):
 
 @app.route('/cities', methods=['GET'])
 def get_cities_route():
-    return get_cities()
+    return get_all_cities()
 
 @app.route('/cities/<city_id>', methods=['GET'])
 def retrieve_city_route(city_id):
-    return retrieve_city()
+    return get_specific_city(city_id)
 
 @app.route('/cities/<city_id>', methods=['PUT'])
 def update_city_route(city_id):
@@ -98,7 +99,7 @@ def update_city_route(city_id):
 
 @app.route('/cities/<city_id>', methods=['DELETE'])
 def del_city_route(city_id):
-    return del_city(city_id)
+    return delete_city(city_id)
 
 """
 places routes
